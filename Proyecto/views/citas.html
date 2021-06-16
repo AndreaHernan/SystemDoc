@@ -1,0 +1,306 @@
+<div class="mt-4 d-flex justify-content-center">
+    <div class="col-10 p-0 bg-cristal-07 blur">
+        <div class="bg-cristal-06 p-4 d-flex">
+            <span class="fs-1-4x">CITAS</span>
+            <button onclick="trg_insertar()" class="ml-auto btn btn-lens btn-squared btn-sm" data-toggle="modal"
+                data-target="#insertModal">
+                INSERTAR
+            </button>
+            <button class="ml-auto btn btn-lens btn-squared btn-sm"
+                onclick="load_table_pendientes()">PENDIENTES</button>
+            <button class="ml-3 btn btn-lens btn-squared btn-sm" onclick="load_table_pasadas()">PASADAS</button>
+            <button class="ml-3 btn btn-lens btn-squared btn-sm" onclick="load_table()">VER TODAS</button>
+        </div>
+        <div class="p-4">
+            <table class="table table-dark table-borderless table-hover border border-dark m-0">
+                <thead class="bg-cristal-04">
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbl_main">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="pl-4 pr-4 pt-1 pb-1 text-secondary bg-cristal-01 text-center letter-spacing-02"> 
+            "Clinica-Medica"
+        </div>
+    </div>
+</div>
+<section id="modals">
+    <!--MODALS-->
+    <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="insertModal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="frm_insert" class="modal-content bg-cristal-06 blur rounded-0 shadow-sm">
+                <div class="modal-header justify-content-center fs-1-4x border-primary">
+                    INSERTAR
+                </div>
+                <div class="modal-body">
+                    <div class="col-10 m-auto">
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Fecha</label>
+                            <input id="txt_ins_fecha" type="date" class="form-control col" placeholder="Nombre">
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Cliente</label>
+                            <select id="txt_ins_fk_cliente" class="form-control col">
+                            </select>
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Costo</label>
+                            <input id="txt_ins_costo" type="number" class="form-control col" placeholder="Costo">
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Estado</label>
+                            <select id="txt_ins_estado" class="form-control col">
+                                <option value="PE" selected>PENDIENTE</option>
+                                <option value="PA">PASADA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-dark">
+                    <button class="btn btn-dark btn-sm btn-squared" data-dismiss="modal">CERRAR</button>
+                    <button class="btn btn-lens btn-sm btn-squared">INSERTAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="frm_update" class="modal-content bg-cristal-06 blur rounded-0 shadow-sm">
+                <div class="modal-header justify-content-center fs-1-4x border-warning">
+                    ACTUALIZAR
+                </div>
+                <div class="modal-body">
+                    <div class="col-10 m-auto">
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">ID</label>
+                            <input id="txt_upd_id" type="number" class="form-control col" placeholder="ID" disabled>
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Fecha</label>
+                            <input id="txt_upd_fecha" type="date" class="form-control col" placeholder="Nombre">
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Cliente</label>
+                            <select id="txt_upd_fk_cliente" class="form-control col">
+                            </select>
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Costo</label>
+                            <input id="txt_upd_costo" type="number" class="form-control col" placeholder="Costo">
+                        </div>
+                        <div class="form-row mt-3">
+                            <label class="col-4 text-right m-auto pr-3" for="">Estado</label>
+                            <select id="txt_upd_estado" class="form-control col">
+                                <option value="PE" selected>PENDIENTE</option>
+                                <option value="PA">PASADA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-dark">
+                    <button class="btn btn-dark btn-sm btn-squared" data-dismiss="modal">CERRAR</button>
+                    <button class="btn btn-lens btn-sm btn-squared">ACTUALIZAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    //START
+    var tbl_main = $("#tbl_main");
+    load_table();
+
+
+    //MAIN
+    $('#frm_insert').submit(function (e) {
+        e.preventDefault();
+        var data = ''
+        data += "fecha=" + $('#txt_ins_fecha').val();
+        data += "&fk_cliente=" + $('#txt_ins_fk_cliente').val();
+        data += "&costo=" + $('#txt_ins_costo').val();
+        data += "&estado=" + $('#txt_ins_estado').val();
+        axios.post('controllers/citas/insert.php', data).then(res => {
+            return res.data;
+        }).then(function (data) {
+            console.log(data);
+
+            if (data) {
+                msg_success("Insertado correctamente");
+                load_table();
+            } else {
+                msg_error("No fue posible insertar <br><small class='mt-2'>" + data + "</small>");
+            }
+        })
+    })
+
+    $('#frm_update').submit(function (e) {
+        e.preventDefault();
+        var data = ''
+        data += "id=" + $('#txt_upd_id').val();
+        data += "&fecha=" + $('#txt_upd_fecha').val();
+        data += "&fk_cliente=" + $('#txt_upd_fk_cliente').val();
+        data += "&costo=" + $('#txt_upd_costo').val();
+        data += "&estado=" + $('#txt_upd_estado').val();
+        axios.post('controllers/citas/update.php', data).then(res => {
+            return res.data;
+        }).then(function (data) {
+            console.log(data);
+            if (data) {
+                msg_success("Actualizado correctamente");
+                load_table();
+            } else {
+                msg_error("No fue posible actualizar <br><small class='mt-2'>" + data + "</small>");
+            }
+        })
+    })
+
+    function trg_insertar() {
+        $("#txt_ins_fk_cliente").html("");
+        axios.get('controllers/clientes/read_all.php', {}).then(res => {
+            return res.data;
+        }).then(function (data) {
+            data.forEach(row => {
+                $("#txt_ins_fk_cliente").append("<option value='" + row.id + "'>" + row.nombre + " " + row.AP + " " + row.AM + "</option>");
+            });
+        })
+    }
+
+    function trg_delete(id) {
+        var data;
+        data = "id=" + id;
+        axios.post('controllers/citas/delete.php', data).then(res => {
+            return res.data;
+        }).then(function (data) {
+            if (data) {
+                msg_success("Eliminado correctamente");
+                load_table();
+            } else {
+                msg_error("No fue posible eliminar <br><small class='mt-2'>" + data + "</small>");
+            }
+        })
+    }
+    function trg_update(id) {
+        $("#txt_upd_fk_cliente").html("");
+        axios.get('controllers/clientes/read_all.php', {}).then(res => {
+            return res.data;
+        }).then(function (data) {
+            data.forEach(row => {
+                $("#txt_upd_fk_cliente").append("<option value='" + row.id + "'>" + row.nombre + " " + row.AP + " " + row.AM + "</option>");
+            });
+        })
+        axios.get('controllers/citas/read_one.php', {
+            params: {
+                id: id
+            }
+        }).then(res => {
+            return res.data;
+        }).then(function (data) {
+            data.forEach(row => {
+                $("#txt_upd_id").val(row.id);
+                $("#txt_upd_fecha").val(row.fecha);
+                $("#txt_upd_fk_cliente").val(row.fk_cliente);
+                $("#txt_upd_costo").val(row.costo);
+                $("#txt_upd_estado").val(row.estado);
+            });
+        })
+    }
+    function load_table_pasadas() {
+        axios.get('controllers/citas/read_pasadas.php', {
+        }).then(res => {
+            return res.data;
+        }).then(function (data) {
+            if (data != '') {
+                tbl_main.html("")
+                data.forEach(row => {
+                    var tbl_str
+                    tbl_str += "<tr>"
+                    tbl_str += "<td>" + row.id + "</td>"
+                    tbl_str += "<td>" + row.fecha + "</td>"
+                    tbl_str += "<td>" + row.nombre + " " + row.AP + " " + row.AM + "</td>"
+                    tbl_str += "<td>" + row.costo + "</td>"
+                    if (row.estado == 'PE') {
+                        tbl_str += "<td class='text-lens'>PENDIENTE</td>"
+                    } else {
+                        tbl_str += "<td>PASADA</td>"
+                    }
+                    tbl_str += "<td>"
+                    tbl_str += '<button onclick="trg_delete(' + row.id + ')" class="btn btn-lens btn-squared btn-sm mr-1"><i class="icon_trash"></i></button>';
+                    tbl_str += '<button onclick="trg_update(' + row.id + ')" class="btn btn-lens btn-squared btn-sm" data-toggle="modal" data-target="#updateModal"><i class="icon_pencil"></i></button>';
+                    tbl_str += "</td>"
+                    tbl_str += "</tr>"
+                    tbl_main.append(tbl_str);
+                });
+            } else {
+                msg_info("Ninguna coincidencia");
+            }
+        })
+    };
+    function load_table_pendientes() {
+        axios.get('controllers/citas/read_pendientes.php', {
+        }).then(res => {
+            return res.data;
+        }).then(function (data) {
+            if (data != '') {
+                tbl_main.html("")
+                data.forEach(row => {
+                    var tbl_str
+                    tbl_str += "<tr>"
+                    tbl_str += "<td>" + row.id + "</td>"
+                    tbl_str += "<td>" + row.fecha + "</td>"
+                    tbl_str += "<td>" + row.nombre + " " + row.AP + " " + row.AM + "</td>"
+                    tbl_str += "<td>" + row.costo + "</td>"
+                    if (row.estado == 'PE') {
+                        tbl_str += "<td class='text-lens'>PENDIENTE</td>"
+                    } else {
+                        tbl_str += "<td>PASADA</td>"
+                    }
+                    tbl_str += "<td>"
+                    tbl_str += '<button onclick="trg_delete(' + row.id + ')" class="btn btn-lens btn-squared btn-sm mr-1"><i class="icon_trash"></i></button>';
+                    tbl_str += '<button onclick="trg_update(' + row.id + ')" class="btn btn-lens btn-squared btn-sm" data-toggle="modal" data-target="#updateModal"><i class="icon_pencil"></i></button>';
+                    tbl_str += "</td>"
+                    tbl_str += "</tr>"
+                    tbl_main.append(tbl_str);
+                });
+            } else {
+                msg_info("Ninguna coincidencia");
+            }
+        })
+    };
+    function load_table() {
+        tbl_main.html("");
+        axios.get('controllers/citas/read_all.php', {}).then(res => {
+            return res.data;
+        }).then(function (data) {
+            data.forEach(row => {
+                var tbl_str
+                tbl_str += "<tr>"
+                tbl_str += "<td>" + row.id + "</td>"
+                tbl_str += "<td>" + row.fecha + "</td>"
+                tbl_str += "<td>" + row.nombre + " " + row.AP + " " + row.AM + "</td>"
+                tbl_str += "<td>" + row.costo + "</td>"
+                if (row.estado == 'PE') {
+                    tbl_str += "<td class='text-lens'>PENDIENTE</td>"
+                } else {
+                    tbl_str += "<td>PASADA</td>"
+                }
+                tbl_str += "<td>"
+                tbl_str += '<button onclick="trg_delete(' + row.id + ')" class="btn btn-lens btn-squared btn-sm mr-1"><i class="icon_trash"></i></button>';
+                tbl_str += '<button onclick="trg_update(' + row.id + ')" class="btn btn-lens btn-squared btn-sm" data-toggle="modal" data-target="#updateModal"><i class="icon_pencil"></i></button>';
+                tbl_str += "</td>"
+                tbl_str += "</tr>"
+                tbl_main.append(tbl_str);
+            });
+        })
+    }
+</script>

@@ -1,0 +1,148 @@
+.bg-img{
+  background: url('../img/citas.jpg');
+  background-size: cover;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+.bg-glass-01{
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+.bg-glass-02{
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+.bg-glass-03{
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+.bg-glass-04{
+  background: rgba(255, 255, 255, 0.4) !important;
+}
+.bg-glass-05{
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+.bg-glass-06{
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+.bg-glass-07{
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+.bg-glass-08{
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+.bg-glass-09{
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.bg-cristal-01{
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+.bg-cristal-02{
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+.bg-cristal-03{
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+.bg-cristal-04{
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+.bg-cristal-05{
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+.bg-cristal-06{
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+.bg-cristal-07{
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+.bg-cristal-08{
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+.bg-cristal-09{
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.blur{
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+}
+.blur-extra{
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+}
+.vh-100{
+  min-height: 100vh !important;
+}
+.bg-black{
+  background: black !important;
+}
+.font-min{
+  font-size: 11px !important; 
+}
+.letter-spacing-01{
+  letter-spacing: 2px;
+}
+.letter-spacing-02{
+  letter-spacing: 5px;
+}
+.letter-spacing-03{
+  letter-spacing: 10px;
+}
+.letter-spacing-04{
+  letter-spacing: 15px;
+}
+.letter-spacing-05{
+  letter-spacing: 20px;
+}
+.fs-1-1x{
+  font-size: 1.1rem;
+}
+.fs-1-2x{
+  font-size: 1.2rem;
+}
+.fs-1-3x{
+  font-size: 1.3rem;
+}
+.fs-1-x{
+  font-size: 1.rem;
+}
+.fs-1-5x{
+  font-size: 1.5rem;
+}
+.fs-1-6x{
+  font-size: 1.6rem;
+}
+.fs-1-7x{
+  font-size: 1.7rem;
+}
+.fs-1-8x{
+  font-size: 1.8rem;
+}
+.fs-1-9x{
+  font-size: 1.9rem;
+}
+.fs-3x{
+  font-size: 3rem;
+}
+.fs-3x{
+  font-size: 3rem;
+}
+.fs-2x{
+  font-size: 2rem;
+}
+.fs-3x{
+  font-size: 3rem;
+}
+.fs-4x{
+  font-size: 4rem;
+}
+.fs-5x{
+  font-size: 5rem;
+}
+.fs-6x{
+  font-size: 6rem;
+}
+.fs-7x{
+  font-size: 7rem;
+}
+.form-control{
+  background-color: rgba(0, 0, 0, 0) !important;
+}
